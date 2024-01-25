@@ -2,7 +2,16 @@ import { Schema, model } from 'mongoose';
 
 const userSchema = new Schema(
   {
-    name: {
+    fname: {
+      type: String
+    },
+    lname: {
+      type: String
+    },
+    email_id:{
+      type: String
+    },
+    password: {
       type: String
     }
   },
