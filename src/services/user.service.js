@@ -1,5 +1,6 @@
 import { log } from 'winston';
 import User from '../models/user.model';
+import bcrypt from 'bcrypt';
 
 //get all users
 export const getAllUsers = async () => {
@@ -9,8 +10,14 @@ export const getAllUsers = async () => {
 
 //create new user
 export const newUser = async (body) => {
-  const data = await User.create(body);
-  return data;
+ 
+    // Store hash in your password DB.
+    
+    const hash = await bcrypt.hash(body.password, 10)
+    body.password = hash
+    const data = await User.create(body);
+    return data;
+
 };
 
 //update single user
@@ -39,7 +46,10 @@ export const getUser = async (body) => {
   try {
     const data = await User.findOne({ email_id: body.email_id });
 
-    if (data && data.password === body.password) {
+    const ismatch = await bcrypt.compare(body.password,data.password)
+// data && data.password === body.password
+console.log(ismatch);
+    if (ismatch) {
       // Authentication successful
       return( 'Authentication successful');
     } else {
@@ -49,8 +59,4 @@ export const getUser = async (body) => {
   } catch (error) {
     return error
   }
-
-
-  
-  return data;
 };
