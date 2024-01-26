@@ -41,10 +41,10 @@ export const getUser = async (body) => {
 
     if (data && data.password === body.password) {
       // Authentication successful
-      return({ message: 'Authentication successful' });
+      return( 'Authentication successful');
     } else {
       // Authentication failed
-      return({ message: 'Authentication failed' });
+      return('Authentication failed');
     }
   } catch (error) {
     return error
