@@ -1,3 +1,4 @@
+import { log } from 'winston';
 import User from '../models/user.model';
 
 //get all users
@@ -33,7 +34,23 @@ export const deleteUser = async (id) => {
 };
 
 //get single user
-export const getUser = async (id) => {
-  const data = await User.findById(id);
+export const getUser = async (body) => {
+
+  try {
+    const data = await User.findOne({ email_id: body.email_id });
+
+    if (data && data.password === body.password) {
+      // Authentication successful
+      return({ message: 'Authentication successful' });
+    } else {
+      // Authentication failed
+      return({ message: 'Authentication failed' });
+    }
+  } catch (error) {
+    return error
+  }
+
+
+  
   return data;
 };
