@@ -1,7 +1,6 @@
 import { log } from 'winston';
 import User from '../models/user.model';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 
 
 
@@ -9,16 +8,12 @@ import jwt from 'jsonwebtoken';
 export const newUser = async (body) => {
  
     // Store hash in your password DB.
-    const userEx = User.findOne({ email_id: body.email })
-        if (userEx) {
-          throw new Error("Email Already exist")
-        }else{
-          const hash = await bcrypt.hash(body.password, 10)
-          body.password = hash
-          const data = await User.create(body);
-          return data;
-        }
     
+    const hash = await bcrypt.hash(body.password, 10)
+    body.password = hash
+    const data = await User.create(body);
+    return data;
+
 };
 
 
@@ -32,10 +27,9 @@ export const getUser = async (body) => {
       const ismatch = await bcrypt.compare(body.password,data.password)
 // data && data.password === body.password
 
-    if (ismatch ) {
+    if (ismatch) {
       // Authentication successful
-      var token = jwt.sign({ email_id: 'qwerty@m.in' }, 'shhhhh');
-      return token;
+      return( 'Authentication successful');
     } else {
       // Authentication failed
       throw new Error('');

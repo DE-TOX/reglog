@@ -31,8 +31,7 @@ export const getUser = async (req, res, next) => {
     const data = await UserService.getUser(req.body);
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
-      data: data,
-      message: "Logged in success"
+      message: data
     });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).json({
