@@ -1,19 +1,19 @@
 import HttpStatus from 'http-status-codes';
-import * as UserService from '../services/user.service';
+import * as NoteService from '../services/note.service';
 
 /**
- * Controller to get all users available
+ * Controller to get all notes available
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
-export const getAllUsers = async (req, res, next) => {
+export const getAllNotes = async (req, res, next) => {
   try {
-    const data = await UserService.getAllUsers();
+    const data = await NoteService.getAllNotes();
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: data,
-      message: 'All users fetched successfully'
+      message: 'All notes fetched successfully'
     });
   } catch (error) {
     next(error);
@@ -21,18 +21,17 @@ export const getAllUsers = async (req, res, next) => {
 };
 
 /**
- * Controller to get a single user
+ * Controller to get a single note
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
-export const getUser = async (req, res, next) => {
+export const getNote = async (req, res, next) => {
   try {
-    const data = await UserService.getUser(req.body);
+    const data = await NoteService.getNote(req.body);
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
-      data: data,
-      message: "Logged in success"
+      message: data
     });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).json({
@@ -43,18 +42,18 @@ export const getUser = async (req, res, next) => {
 };
 
 /**
- * Controller to create a new user
+ * Controller to create a new note
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
-export const newUser = async (req, res, next) => {
+export const newNote = async (req, res, next) => {
   try {
-    const data = await UserService.newUser(req.body);
+    const data = await NoteService.newNote(req.body);
     res.status(HttpStatus.CREATED).json({
       code: HttpStatus.CREATED,
       data: data,
-      message: 'User created successfully'
+      message: 'Note created successfully'
     });
   } catch (error) {
     next(error);
