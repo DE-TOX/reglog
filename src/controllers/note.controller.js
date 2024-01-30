@@ -9,7 +9,7 @@ import * as NoteService from '../services/note.service';
  */
 export const getAllNotes = async (req, res, next) => {
   try {
-    const data = await NoteService.getAllNotes();
+    const data = await NoteService.getAllNote();
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: data,
@@ -49,7 +49,7 @@ export const getNote = async (req, res, next) => {
  */
 export const newNote = async (req, res, next) => {
   try {
-    const data = await NoteService.newNote(req.body);
+    const data = await NoteService.newNote(req.params._id);
     res.status(HttpStatus.CREATED).json({
       code: HttpStatus.CREATED,
       data: data,
@@ -59,4 +59,36 @@ export const newNote = async (req, res, next) => {
     next(error);
   }
 };
+
+/**
+ * Controller to delete a note
+ * @param  {object} req - request object
+ * @param {object} res - response object
+ * @param {Function} next
+ */
+export const deleteNote = async (req, res, next) => {
+    try {
+      await NoteService.deleteNote(req.params._id);
+      res.status(HttpStatus.OK).json({
+        code: HttpStatus.OK,
+        data: [],
+        message: 'Note deleted successfully'
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  export const updateNote = async (req, res, next) => {
+    try {
+      const data = await NoteService.updateNote(req.params._id, req.body);
+      res.status(HttpStatus.ACCEPTED).json({
+        code: HttpStatus.ACCEPTED,
+        data: data,
+        message: 'Note updated successfully'
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 

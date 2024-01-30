@@ -1,5 +1,6 @@
 import express from 'express';
 const router = express.Router();
+import { userAuth } from '../middlewares/auth.middleware';
 
 import userRoute from './user.route';
 import notesRoute from './note.route';
@@ -13,7 +14,7 @@ const routes = () => {
     res.json('Welcome');
   });
   router.use('/users', userRoute);
-  router.use('/notes', notesRoute);
+  router.use('/notes', userAuth, notesRoute);
   return router;
 };
 
