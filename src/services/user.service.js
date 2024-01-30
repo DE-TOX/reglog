@@ -2,6 +2,7 @@ import { log } from 'winston';
 import User from '../models/user.model';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { use } from 'chai';
 
 
 
@@ -9,7 +10,9 @@ import jwt from 'jsonwebtoken';
 export const newUser = async (body) => {
  
     // Store hash in your password DB.
-    const userEx = User.findOne({ email_id: body.email })
+    console.log(body.email_id);
+    const userEx = await User.findOne({ email_id : body.email_id})
+    console.log("user -----------" ,userEx);
         if (userEx) {
           throw new Error("Email Already exist")
         }else{
