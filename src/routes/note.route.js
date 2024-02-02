@@ -12,7 +12,7 @@ router.get('', noteController.getAllNotes);
 router.post('',noteController.newNote);
 
 //route to get single note
-router.post('/:_id', noteController.getNote);
+router.get('/:_id', noteController.getNote);
 
 //route to update a single note by their note id
 router.put('/:_id', noteController.updateNote);

@@ -25,7 +25,7 @@ export const getNote = async (id) => {
 };
 
 //update single Note
-export const updatNote = async (_id, body) => {
+export const updateNote = async (_id, body) => {
     const data = await Note.findByIdAndUpdate(
       {
         _id
@@ -39,7 +39,7 @@ export const updatNote = async (_id, body) => {
   };
 
   //delete single Note
-export const deletNote = async (id) => {
+export const deleteNote = async (id) => {
     await Note.findByIdAndDelete(id);
     return '';
   };

@@ -28,7 +28,8 @@ export const getAllNotes = async (req, res, next) => {
  */
 export const getNote = async (req, res, next) => {
   try {
-    const data = await NoteService.getNote(req.body);
+    const id = req.params._id
+    const data = await NoteService.getNote(id);
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       message: data
@@ -49,7 +50,7 @@ export const getNote = async (req, res, next) => {
  */
 export const newNote = async (req, res, next) => {
   try {
-    const data = await NoteService.newNote(req.params._id);
+    const data = await NoteService.newNote(req.body);
     res.status(HttpStatus.CREATED).json({
       code: HttpStatus.CREATED,
       data: data,
