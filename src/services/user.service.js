@@ -1,39 +1,52 @@
+import { log } from 'winston';
 import User from '../models/user.model';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { use } from 'chai';
 
-//get all users
-export const getAllUsers = async () => {
-  const data = await User.find();
-  return data;
-};
+
 
 //create new user
 export const newUser = async (body) => {
-  const data = await User.create(body);
-  return data;
+ 
+    // Store hash in your password DB.
+    console.log(body.email_id);
+    const userEx = await User.findOne({ email_id : body.email_id})
+    console.log("user -----------" ,userEx);
+        if (userEx) {
+          throw new Error("Email Already exist")
+        }else{
+          const hash = await bcrypt.hash(body.password, 10)
+          body.password = hash
+          const data = await User.create(body);
+          return data;
+        }
+    
 };
 
-//update single user
-export const updateUser = async (_id, body) => {
-  const data = await User.findByIdAndUpdate(
-    {
-      _id
-    },
-    body,
-    {
-      new: true
-    }
-  );
-  return data;
-};
 
-//delete single user
-export const deleteUser = async (id) => {
-  await User.findByIdAndDelete(id);
-  return '';
-};
 
 //get single user
-export const getUser = async (id) => {
-  const data = await User.findById(id);
-  return data;
+export const getUser = async (body) => {
+
+
+    const data = await User.findOne({ email_id: body.email_id });
+    if(data != null){
+      const ismatch = await bcrypt.compare(body.password,data.password)
+// data && data.password === body.password
+
+    if (ismatch ) {
+      // Authentication successful
+      var token = jwt.sign({ email_id: 'qwerty@m.in' }, 'shhhhh');
+      return token;
+    } else {
+      // Authentication failed
+      throw new Error('');
+    }
+
+    }else{
+      throw new Error("Invalid Email")
+    }
+    
+  
 };
